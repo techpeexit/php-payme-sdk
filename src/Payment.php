@@ -1,8 +1,9 @@
 <?php
 
-namespace PhpPaymeSdk;
+namespace Payme\PaymentSdk;
+require 'vendor/autoload.php';
 
-class TemperatureConverter
+class Payment
 {
     //Caller must provide the temperature value and the unit either C Celsius or F Fahrenheit
     public function convert($temperature, $unit)
