@@ -1,0 +1,19 @@
+{
+    "name": "quantum/php-payme-sdk",
+    "description": "PAYME Payment Integration Library",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Quantum\\PhpPaymeSdk\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Aristide Mvele",
+            "email": "aristide.money@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
