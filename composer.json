@@ -1,5 +1,5 @@
 {
-    "name": "php-payme-sdk",
+    "name": "php-payme/sdk",
     "description": "PAYME Payment Integration Library",
     "type": "library",
     "license": "MIT",
@@ -11,7 +11,7 @@
     "authors": [
         {
             "name": "Aristide Mvele",
-            "email": "aristide.money@gmail.com"
+            "email": "amvele@quantum-soft.ai"
         }
     ],
     "minimum-stability": "stable",
