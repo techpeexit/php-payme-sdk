@@ -1,6 +1,6 @@
 <?php
 
-namespace testsdk\testsdk;
+namespace PhpPaymeSdk;
 
 class TemperatureConverter
 {
