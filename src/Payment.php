@@ -1,8 +1,8 @@
 <?php
 
-namespace Payme\PaymentSdk;
+namespace PaymeQuantum\PaymentSdk;
 
-use Payme\PaymentSdk\Repository;
+use PaymeQuantum\PaymentSdk\Repository;
 use GuzzleHttp\Exception\RequestException;
 use Dotenv\Dotenv;
 

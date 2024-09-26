@@ -1,6 +1,6 @@
 <?php
 
-namespace Payme\PaymentSdk;
+namespace PaymeQuantum\PaymentSdk;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 
