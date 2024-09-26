@@ -1,5 +1,5 @@
 {
-    "name": "payme/payment-sdk",
+    "name": "paymee/payment-sdk",
     "description": "PAYME Payment Integration Library",
     "type": "library",
     "keywords": [
@@ -17,7 +17,7 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Payme\\PaymentSdk\\": "src/"
+            "Paymee\\PaymentSdk\\": "src/"
         }
     },
     "authors": [
@@ -38,7 +38,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Payme\\PaymentSdk\\Tests\\": "tests/"
+            "Paymee\\PaymentSdk\\Tests\\": "tests/"
         }
     }
 }
