@@ -2,9 +2,8 @@
 
 namespace PaymeQuantum\PaymentSdk;
 
-use PaymeQuantum\PaymentSdk\Repository;
 use GuzzleHttp\Exception\RequestException;
-use Dotenv\Dotenv;
+use PaymeQuantum\PaymentSdk\Services\Repository;
 
 class Payment
 {
@@ -14,19 +13,16 @@ class Payment
     private $merchant;
     private $token;
     private $account;
-    private $externalDataService;
+    protected $externalDataService;
 
     public function __construct($email, $password, $apiKey)
     {
-        // Load environment variables
-        $dotenv = Dotenv::createImmutable(__DIR__);
-        $dotenv->load();
-
         $this->email = $email;
         $this->password = $password;
         $this->apiKey = $apiKey;
         $this->token = '';
         $this->externalDataService = new Repository();
+        $this->init();
     }
 
     /**
@@ -47,13 +43,13 @@ class Payment
         if (!$resp || empty($resp['data'])) {
             throw new \Exception('Unable to fetch account related to the key provided');
         }
-
         $this->merchant = $resp['data']['user'];
         $this->account = $this->merchant['individualProfiles'][0];
         $this->token = $resp['data']['token'];
-
-        echo json_encode($this->account) . "\n";
-        echo "Token: " . $this->token . "\n";
+        
+        // echo json_encode($this->account) . "\n";
+        // echo "Token: " . $this->token . "\n";
+        // dd($resp);
 
         // Set the token in the external data service
         $this->externalDataService->setToken($this->token);
@@ -67,9 +63,7 @@ class Payment
     public function getFees($amount, $country)
     {
         try {
-            $resp = $this->externalDataService->getDataFromBilling(
-                "fees?filter={\"where\":{\"min_amount\":{\"lte\": {$amount}},\"max_amount\":{\"gt\": {$amount}}}}"
-            );
+            $resp = $this->externalDataService->getDataFromBilling('fees?filter[where][and][0][min_amount][lte]='.$amount.'&filter[where][and][1][max_amount][gte]='.$amount);
 
             if (!$resp || empty($resp)) {
                 throw new \Exception('Fees have not yet been defined for this amount, please contact support');
@@ -89,9 +83,11 @@ class Payment
     }
 
     /**
-     * This function registers a payment / simple / partial / grouped
-     * @param array $param payment parameters
-     */
+    * 
+    * This function registers a payment / simple / partial / grouped
+    * @param array $param (reference, amount, fees, tva, description)
+    *
+    **/
     public function postPayment($param)
     {
         try {
@@ -136,7 +132,7 @@ class Payment
 
     /**
      * This function initializes the payment of a customer
-     * @param array $param parameters of the item payment
+     * @param array $param (reference, currency, customer_name, customer_email, customer_country, amount, fees, transaction_id, phone)
      */
     public function postPaymentItem($param)
     {

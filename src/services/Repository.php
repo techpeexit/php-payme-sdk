@@ -1,116 +1,121 @@
 <?php
 
-namespace PaymeQuantum\PaymentSdk;
+namespace PaymeQuantum\PaymentSdk\Services;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Exception\ClientException;
 
 class Repository {
-    private $url_payment;
-    private $url_onboard;
-    private $url_billing;
-    protected $token;
-    private $client_billing;
-    private $client_onboarding;
-    private $client_payment;
-
+    protected static $url_payment;
+    protected static $url_onboard;
+    protected static $url_billing;
+    protected static $token;
+   
     public function __construct() {
         // Load environment variables from .env file
-        $this->loadEnv();
+        // $this->loadEnv();
 
         // Initialize URLs
-        $this->url_payment = getenv('BASE_URL_PAYMENT');
-        $this->url_onboard = getenv('BASE_URL_ONBOARDING');
-        $this->url_billing = getenv('BASE_URL_BILLING');
+        self::$url_payment = 'http://payme-routing-payment.peexit.com/';
+        self::$url_onboard = 'https://payme-onboarding.peexit.com/api/v1/';
+        self::$url_billing = 'https://payme-billing.peexit.com/';
 
-        // Initialize Guzzle clients
-        $this->client_billing = new Client(['base_uri' => $this->url_billing, 'headers' => ['Content-Type' => 'application/json']]);
-        $this->client_onboarding = new Client(['base_uri' => $this->url_onboard, 'headers' => ['Content-Type' => 'application/json']]);
-        $this->client_payment = new Client(['base_uri' => $this->url_payment, 'headers' => ['Content-Type' => 'application/json']]);
-
-        $this->token = '';
-    }
-
-    private function loadEnv() {
-        if (file_exists('.env')) {
-            $lines = file('.env');
-            foreach ($lines as $line) {
-                putenv(trim($line));
-            }
-        }
+        self::$token = '';
     }
 
     public function getToken() {
-        return $this->token;
+        return self::$token;
     }
 
     public function setToken($token) {
-        $this->token = $token;
+        self::$token = $token;
     }
 
-    public function getDataFromBilling($path) {
+    public static function getDataFromBilling($path) {
         try {
-            echo "token: " . $this->token . "\n";
-            $response = $this->client_billing->request('GET', $path, [
-                'headers' => ['Authorization' => "Bearer {$this->token}"]
+            $client = new Client();
+            $full_path = self::$url_billing. $path;
+            $headers = [
+                'Content-Type' => 'application/json; charset=utf-8',
+                'Authorization' => 'Bearer '. self::$token
+            ];
+            $response = $client->request('GET', $full_path, [
+                'headers' => $headers
             ]);
             return json_decode($response->getBody(), true);
-        } catch (RequestException $e) {
-            echo "Failed to fetch data from Billing: " . $e->getMessage() . "\n";
-            return null;
+        } catch (ClientException $e) {
+            throw $e;
         }
     }
 
-    public function postDataFromOnboarding($path, $body) {
+    public static function postDataFromOnboarding($path, $body) {
         try {
-            echo "body: " . json_encode($body) . "\n";
-            $response = $this->client_onboarding->request('POST', $path, [
-                'headers' => ['Authorization' => "Bearer {$this->token}"],
+            $client = new Client();
+            $full_path = self::$url_onboard. $path;
+            $headers = [
+                'Content-Type' => 'application/json; charset=utf-8',
+                'Authorization' => 'Bearer '. self::$token
+            ];
+            // dd($body);
+            $response = $client->request('POST', $full_path, [
+                'headers' => $headers,
                 'json' => $body
             ]);
-            echo "Successfully fetched and cached data from Onboarding {$path}\n";
             return json_decode($response->getBody(), true);
-        } catch (RequestException $e) {
-            echo "Failed to fetch data from Onboarding: " . $e->getMessage() . "\n";
-            return null;
+        } catch (ClientException $e) {
+            throw $e;
         }
     }
 
-    public function getDataFromOnboarding($path) {
+    public static function getDataFromOnboarding($path) {
         try {
-            $response = $this->client_onboarding->request('GET', $path, [
-                'headers' => ['Authorization' => "Bearer {$this->token}"]
+            $client = new Client();
+            $full_path = self::$url_onboard. $path;
+            $headers = [
+                'Content-Type' => 'application/json; charset=utf-8',
+                'Authorization' => 'Bearer '. self::$token
+            ];
+            $response = $client->request('GET', $full_path, [
+                'headers' => $headers
             ]);
             return json_decode($response->getBody(), true);
-        } catch (RequestException $e) {
-            echo "Failed to fetch data from Onboarding: " . $e->getMessage() . "\n";
-            return null;
+        } catch (ClientException $e) {
+            throw $e;
         }
     }
 
-    public function getDataFromPayment($path) {
+    public static function getDataFromPayment($path) {
         try {
-            $response = $this->client_payment->request('GET', $path, [
-                'headers' => ['Authorization' => "Bearer {$this->token}"]
+            $client = new Client();
+            $full_path = self::$url_payment. $path;
+            $headers = [
+                'Content-Type' => 'application/json; charset=utf-8',
+                'Authorization' => 'Bearer '. self::$token
+            ];
+            $response = $client->request('GET', $full_path, [
+                'headers' => $headers
             ]);
             return json_decode($response->getBody(), true);
-        } catch (RequestException $e) {
-            echo "Failed to fetch data from Payment: " . $e->getMessage() . "\n";
-            return null;
+        } catch (ClientException $e) {
+            throw $e;
         }
     }
 
-    public function postDataFromPayment($path, $body) {
+    public static function postDataFromPayment($path, $body) {
         try {
-            echo "body: " . json_encode($body) . "\n";
-            $response = $this->client_payment->request('POST', $path, [
-                'headers' => ['Authorization' => "Bearer {$this->token}"],
+            $client = new Client();
+            $full_path = self::$url_payment. $path;
+            $headers = [
+                'Content-Type' => 'application/json; charset=utf-8',
+                'Authorization' => 'Bearer '. self::$token
+            ];
+            $response = $client->request('POST', $full_path, [
+                'headers' => $headers,
                 'json' => $body
             ]);
-            echo "Successfully posted data from Payment {$path}\n";
             return json_decode($response->getBody(), true);
-        } catch (RequestException $e) {
-            echo "Failed to fetch data from Payment: " . $e->getMessage() . "\n";
-            return null;
+        } catch (ClientException $e) {
+            throw $e;
         }
     }
 }
