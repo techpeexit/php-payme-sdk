@@ -4,15 +4,15 @@ This project provides a PHP-based integration with the PayMe API for processing 
 
 ## Features
 
-- ** Seamless Environment Switching: Easily switch between sandbox and production environments via environment variables.
-- ** Real-Time Callbacks: Supports providerCallbackHost to receive real-time payment status updates.
-- ** Polling Mechanism: A fallback polling mechanism for cases where callback notifications fail to get the final status of transactions.
-- ** API User and Key Management: Automatically creates API users and keys in the sandbox environment after the onboarding process completed in the admin panel.
-- ** Unique Payment References: Generates unique payment reference IDs using uuid_v4() for each transaction.
-- ** Unique Payment Types: Support many payment types related to the user experience:
-- ** Simple Payment: This is when one user does one payment at a time.
-- ** Partial Payment: This is to allow merchants to accept if a customer will do multiple payments for a specific product or service.
-- ** Group Payment: This is when many customers are doing the same payment.
+- Seamless Environment Switching: Easily switch between sandbox and production environments via environment variables.
+- Real-Time Callbacks: Supports providerCallbackHost to receive real-time payment status updates.
+- Polling Mechanism: A fallback polling mechanism for cases where callback notifications fail to get the final status of transactions.
+- API User and Key Management: Automatically creates API users and keys in the sandbox environment after the onboarding process completed in the admin panel.
+- Unique Payment References: Generates unique payment reference IDs using uuid_v4() for each transaction.
+- Unique Payment Types: Support many payment types related to the user experience:
+- Simple Payment: This is when one user does one payment at a time.
+- Partial Payment: This is to allow merchants to accept if a customer will do multiple payments for a specific product or service.
+- Group Payment: This is when many customers are doing the same payment.
 
 ## Prerequisites
 PHP (>= 7.4)
@@ -63,12 +63,10 @@ Use the provided `postPayment` and `postPaymentItem` functions to initiate a pay
 ```php
 use PaymeQuantum\PaymentSdk\Payment;
 
-$email = getenv('PAYME_CREDENTIAL_EMAIL');
-$password = getenv('PAYME_CREDENTIAL_PASSWORD');
-$subscriptionKey = getenv('PAYME_SUBSCRIPTION_KEY');
+$email = PAYME_CREDENTIAL_EMAIL;
+$password = PAYME_CREDENTIAL_PASSWORD;
+$subscriptionKey = PAYME_SUBSCRIPTION_KEY;
 $sdk = new Payment($email, $password, $subscriptionKey);
-
-$sdk->init();
 
 $transaction = $sdk->postPayment([
   'reference' => 'TEST006',
