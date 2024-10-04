@@ -26,10 +26,10 @@
             "email": "mvelemvele@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "require": {
-        "php": "^7.0 || ^8.0",
-        "guzzlehttp/guzzle": "7.9.x-dev"
+        "php": "^7.4 || ^8.0",
+        "guzzlehttp/guzzle": "^7.0"
     },
     "require-dev": {
     },
