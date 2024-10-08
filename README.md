@@ -30,21 +30,25 @@ composer require payme-quantum/payment-sdk
 Create a .env file in your project root and add the following variables:
 text
 # General Configuration
-PAYME_ENV=sandbox
 
+```bash
+SUBSCRIPTION_KEY_SANDBOX=<your_sandbox_subscription_key>
+CALLBACK_HOST_SANDBOX=<your_sandbox_callback_url>
+PAYME_CREDENTIAL_EMAIL=<your_sandbox_email>
+PAYME_CREDENTIAL_PASSWORD=<your_sandbox_password>
+
+SUBSCRIPTION_KEY_SANDBOX=<your_sandbox_subscription_key>
+CALLBACK_HOST_SANDBOX=<your_sandbox_callback_url>
+PAYME_CREDENTIAL_EMAIL=<your_sandbox_email>
+PAYME_CREDENTIAL_PASSWORD=<your_sandbox_password>
+```
 # Sandbox Configuration
-BASE_URL_PAYMENT=https://payme-payment.your-sandbox-api-url.com/
-BASE_URL_BILLING=https://payme-billing.your-sandbox-api-url.com/
-BASE_URL_ONBOARDING=https://payme-onboard.your-sandbox-api-url.com/
 SUBSCRIPTION_KEY_SANDBOX=<your_sandbox_subscription_key>
 CALLBACK_HOST_SANDBOX=<your_sandbox_callback_url>
 PAYME_CREDENTIAL_EMAIL=<your_sandbox_email>
 PAYME_CREDENTIAL_PASSWORD=<your_sandbox_password>
 
 # Production Configuration
-BASE_URL_PAYMENT=https://payme-payment.your-production-api-url.com/
-BASE_URL_BILLING=https://payme-billing.your-production-api-url.com/
-BASE_URL_ONBOARDING=https://payme-onboard.your-production-api-url.com/
 SUBSCRIPTION_KEY_PRODUCTION=<your_production_subscription_key>
 CALLBACK_HOST_PRODUCTION=<your_production_callback_url>
 PAYME_CREDENTIAL_EMAIL=<your_production_email>
